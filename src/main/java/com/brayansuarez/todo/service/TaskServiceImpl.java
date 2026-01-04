@@ -4,10 +4,13 @@ import  com.brayansuarez.todo.dto.TaskCreateRequest;
 import com.brayansuarez.todo.dto.TaskResponse;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import  com.brayansuarez.todo.model.Task;
+import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.repository.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
@@ -81,5 +84,11 @@ public class TaskServiceImpl implements TaskService {
         }
         repository.deleteById(id);
     }
+    @Override
+    @Transactional
+    public long deleteByStatus(TaskStatus status){
+        return repository.deleteByStatus(status);
+    }
+
 
 }

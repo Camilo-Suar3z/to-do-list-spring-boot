@@ -4,6 +4,7 @@ import com.brayansuarez.todo.model.Task;
 import com.brayansuarez.todo.dto.TaskCreateRequest;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import com.brayansuarez.todo.dto.TaskResponse;
+import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.repository.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,6 @@ public interface TaskService {
     TaskResponse findById(long id);
     TaskResponse update(long id, TaskUpdateRequest request);
     void delete(long id);
-
+    long deleteByStatus(TaskStatus status);
 
 }

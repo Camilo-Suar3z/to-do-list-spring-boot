@@ -3,13 +3,19 @@ package com.brayansuarez.todo.controller;
 import com.brayansuarez.todo.dto.TaskResponse;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import com.brayansuarez.todo.dto.TaskCreateRequest;
+import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.service.TaskService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import jakarta.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -55,5 +61,15 @@ public class TaskController {
     public void delete(@PathVariable Long id){
         service.delete(id);
     }
+
+
+
+//eliminar por status
+@DeleteMapping("/by-status/{status}")
+    public ResponseEntity<Map<String, Object>> deleteByStatus(@PathVariable TaskStatus status){
+        long delete= service.deleteByStatus(status);
+        return ResponseEntity.ok(Map.of("deletedCount", delete));
+}
+
 
 }
