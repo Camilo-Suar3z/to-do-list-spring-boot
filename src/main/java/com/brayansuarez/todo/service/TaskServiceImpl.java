@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -39,6 +41,35 @@ public class TaskServiceImpl implements TaskService {
 
         Task save = repository.save(entity);
         return TaskResponse.fromEntity(save);
+    }
+
+    @Override
+    @Transactional
+    public List<TaskResponse> createBatch(List<TaskCreateRequest>requests){
+if (requests == null || requests.isEmpty()){
+    throw new IllegalArgumentException("lista vacia");
+
+}
+if (requests.size()>50){
+    throw new IllegalArgumentException("mex 50 tares");
+    }
+//convertir request a entidades
+        List<Task> tasks= new ArrayList<>();
+for(TaskCreateRequest request:requests){
+    Task task= new Task();
+    task.setTitle(request.getTitle());
+    task.setDescription(request.getDescription());
+    task.setPriority(request.getPriority());
+    task.setStatus(request.getStatus());
+    task.setDueDate(request.getDueDate());
+tasks.add(task);
+}
+List<Task> saveTasks = repository.saveAll(tasks);
+    List<TaskResponse> responses= new ArrayList<>();
+    for(Task task : saveTasks){
+        responses.add(TaskResponse.fromEntity(task));
+    }
+    return   responses;
     }
 
 
