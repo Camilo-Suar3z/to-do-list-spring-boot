@@ -3,6 +3,7 @@ package com.brayansuarez.todo.controller;
 import com.brayansuarez.todo.dto.TaskResponse;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import com.brayansuarez.todo.dto.TaskCreateRequest;
+import com.brayansuarez.todo.model.Task;
 import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.service.TaskService;
 
@@ -10,10 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import jakarta.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,9 +30,27 @@ public class TaskController {
         this.service = service;
     }
 
+
     @PostMapping
     public TaskResponse create(@Valid @RequestBody TaskCreateRequest request) {
         return service.create(request);
+    }
+
+
+
+    // crear varias tareAS
+    @PostMapping("/batch")
+    public ResponseEntity <?> createBatch(@Valid @RequestBody List<TaskCreateRequest>requests){
+        List<TaskResponse> createdTasks = service.createBatch(requests);{
+
+           return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                   "mensaje", "tareas creadas exitosamente ",
+                   "count", createdTasks.size(),
+                   "task", createdTasks
+           ));
+        }
+
+
     }
 
 
