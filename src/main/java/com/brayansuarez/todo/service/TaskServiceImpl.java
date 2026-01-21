@@ -4,12 +4,15 @@ import  com.brayansuarez.todo.dto.TaskCreateRequest;
 import com.brayansuarez.todo.dto.TaskResponse;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import  com.brayansuarez.todo.model.Task;
+import com.brayansuarez.todo.model.TaskPriority;
 import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.repository.TaskRepository;
+import com.brayansuarez.todo.validation.TaskValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
@@ -21,17 +24,26 @@ import java.util.NoSuchElementException;
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
+    private final List<TaskValidator> validators;
 
-    public TaskServiceImpl(TaskRepository repository) {
-        this.repository = repository;
+      public TaskServiceImpl(TaskRepository repository, List<TaskValidator> validators){
+this.repository=repository;
+this.validators=validators;
+System.out.println("TaskServiceImpl creado con " + validators.size() + " validadores");
     }
 
     @Override
     public TaskResponse create(TaskCreateRequest request) {
-        // Regla adicional: dueDate no puede ser pasado (además de @FutureOrPresent en DTO)
-        if (request.getDueDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("la fechalimite no puede estar en el  pasado ");
+        System.out.println("=== INICIANDO VALIDACIONES ===");
+
+
+        for (TaskValidator validator : validators) {
+            System.out.println("🔍 Ejecutando validador: " + validator.getClass().getSimpleName());
+            validator.validate(request);  // Si falla, lanza excepción
         }
+        System.out.println("✅ Todas las validaciones pasaron");
+        // Regla adicional: dueDate no puede ser pasado (además de @FutureOrPresent en DTO)
+
         Task entity = new Task();
         entity.setTitle(request.getTitle());
         entity.setDescription(request.getDescription());
@@ -53,6 +65,13 @@ if (requests == null || requests.isEmpty()){
 if (requests.size()>50){
     throw new IllegalArgumentException("mex 50 tares");
     }
+for (TaskCreateRequest request: requests){
+    if (validators!= null &&!validators.isEmpty()){
+        for (TaskValidator validator: validators){
+            validator.validate(request);
+        }
+    }
+}
 //convertir request a entidades
         List<Task> tasks= new ArrayList<>();
 for(TaskCreateRequest request:requests){
