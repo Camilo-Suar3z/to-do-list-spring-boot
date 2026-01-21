@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name= "tasks") // se puede cambiar el nombre
 
-public class    Task {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Identity/serial en postgres

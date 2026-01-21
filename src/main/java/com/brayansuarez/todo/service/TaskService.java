@@ -4,13 +4,9 @@ import com.brayansuarez.todo.model.Task;
 import com.brayansuarez.todo.dto.TaskCreateRequest;
 import com.brayansuarez.todo.dto.TaskUpdateRequest;
 import com.brayansuarez.todo.dto.TaskResponse;
-import com.brayansuarez.todo.model.TaskStatus;
 import com.brayansuarez.todo.repository.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-
 public interface TaskService {
     TaskResponse create(TaskCreateRequest request);
     Page<TaskResponse> findAll(Pageable pageable, String status, String priority, String dueBefore);
@@ -18,6 +14,6 @@ public interface TaskService {
     TaskResponse findById(long id);
     TaskResponse update(long id, TaskUpdateRequest request);
     void delete(long id);
-    long deleteByStatus(TaskStatus status);
-List<TaskResponse> createBatch(List<TaskCreateRequest> requests);
+
+
 }

@@ -20,7 +20,7 @@ public class TaskCreateRequest {
 @NotNull(message = "el estado es obligatorio")
     private TaskStatus status;
 
-/*@FutureOrPresent(message = "la fecha limite debe de ser presente o futura ")*/
+@FutureOrPresent(message = "la fecha limite debe de ser presente o futura ")
     private LocalDate dueDate;
 
 
@@ -62,7 +62,7 @@ public class TaskCreateRequest {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setDueData(LocalDate dueData) {
+        this.dueDate = dueData;
     }
 }
