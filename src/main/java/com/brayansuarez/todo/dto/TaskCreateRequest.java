@@ -7,8 +7,8 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 public class TaskCreateRequest {
-@NotBlank(message = "el titulo es obligatorio")
-    @Size(max= 120, message = "l título no debe superar 120 caracteres")
+//@NotBlank(message = "el titulo es obligatorio")
+  //  @Size(max= 120, message = "l título no debe superar 120 caracteres")
     private String title;
 
 @Size(max=500, message = "la descripcion no debe superar 500 caracteres")

@@ -1,9 +1,11 @@
 package com.brayansuarez.todo.validation;
 
 import com.brayansuarez.todo.dto.TaskCreateRequest;
+import com.brayansuarez.todo.exception.TaskValidationException;
 import org.springframework.stereotype.Component;
+
 @Component
-public class TitleValidador implements TaskValidator {
+public class TitleValidator implements TaskValidator {
     @Override
     public void validate(TaskCreateRequest request){
 
@@ -11,13 +13,13 @@ public class TitleValidador implements TaskValidator {
 
         if(request.getTitle()== null || request.getTitle().trim().isEmpty()){
 
-            throw new IllegalArgumentException("el titulo es reuqerido");
+            throw new TaskValidationException("El título es requerido");
 
         }
         if (request.getTitle().length()>120){
-            throw new IllegalArgumentException(" El título no puede superar 120 caracteres. Longitud actual:  "+ request.getTitle());
+            throw new TaskValidationException("no puede superar 120 caracteres"+ request.getTitle().length());
         }
-        System.out.println("Titulo valido" +  request.getTitle());
+        System.out.println("Titulo valido " +  request.getTitle());
     }
 
 
