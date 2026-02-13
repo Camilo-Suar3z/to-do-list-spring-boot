@@ -12,8 +12,8 @@ public class StatusValidator  implements TaskValidator{
             public void validate(TaskCreateRequest request){
         System.out.println("Validando el Statud");
         if(request.getStatus()==null){
-            throw new TaskValidationException("El Status es requerido ")
-            System.out.println("se");
+            throw new TaskValidationException("El Status es requerido ");
+
 
         }
         System.out.println("El status ha sido validada correctamente: " + request.getPriority());

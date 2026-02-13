@@ -14,10 +14,10 @@ public class TaskCreateRequest {
 @Size(max=500, message = "la descripcion no debe superar 500 caracteres")
     private String description;
 
-@NotNull(message = "la prioridad es obligatoria")
+//@NotNull(message = "la prioridad es obligatoria")
     private TaskPriority priority;
 
-@NotNull(message = "el estado es obligatorio")
+//@NotNull(message = "el estado es obligatorio")
     private TaskStatus status;
 
 /*@FutureOrPresent(message = "la fecha limite debe de ser presente o futura ")*/
