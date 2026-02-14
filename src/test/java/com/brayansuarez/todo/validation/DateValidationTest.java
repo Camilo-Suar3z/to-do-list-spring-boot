@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DateValidatorTest {
+class DateValidationTest {
 
     private DateValidator dateValidator;
     private TaskCreateRequest request;
