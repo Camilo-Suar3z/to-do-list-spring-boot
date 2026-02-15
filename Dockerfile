@@ -1,5 +1,5 @@
-# Etapa 1: Construcción de la aplicación
-FROM maven:3.8.4-openjdk-17-slim AS build
+# Etapa 1: Construcción con Maven y Eclipse Temurin
+FROM maven:3.8.4-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copiar archivo de dependencias y descargarlas (cache)
@@ -10,8 +10,8 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Imagen final más liviana
-FROM openjdk:17-jdk-slim
+# Etapa 2: Imagen final con Eclipse Temurin (más liviana)
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copiar el JAR generado desde la etapa de construcción
