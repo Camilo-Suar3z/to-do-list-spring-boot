@@ -9,16 +9,17 @@ RUN mvn dependency:go-offline
 # Copiar código fuente y compilar
 COPY src ./src
 RUN mvn clean package -DskipTests
-
-# Etapa 2: Imagen final con Eclipse Temurin (más liviana)
+# Etapa 2: Imagen final
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-
-# Copiar el JAR generado desde la etapa de construcción
 COPY --from=build /app/target/*.jar app.jar
 
-# Puerto que usa Spring Boot
 EXPOSE 8080
 
-# Comando para ejecutar la app con perfil de producción
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
+# Pasar variables de entorno explícitamente
+ENTRYPOINT ["java", \
+    "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
+    "-DDATABASE_URL=${DATABASE_URL}", \
+    "-DDATABASE_USER=${DATABASE_USER}", \
+    "-DDATABASE_PASSWORD=${DATABASE_PASSWORD}", \
+    "-jar", "app.jar"]
